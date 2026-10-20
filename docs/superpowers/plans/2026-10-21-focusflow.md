@@ -62,7 +62,7 @@ Do not create empty placeholder modules. Add each file when its stage needs it.
 
 **Interfaces:** consumes the existing root Git repository; produces an Android starter with npm scripts start, android, lint, typecheck, and test. All mobile commands below run from mobile.
 
-- [ ] Verify existing custom Java/Android installations, then complete the [Windows setup guide](../../windows-setup.md).
+- [x] Verify/install Java and Android tools, configure their paths, and boot a test emulator using the [Windows setup guide](../../windows-setup.md). Completed under C:\CODE; starter-app work below remains pending.
 - [ ] Select and record a compatible CLI/template pair using official requirements; pin the init versions and generate mobile without a nested Git repository.
 - [ ] Preserve the template's native configuration and dependencies; add typecheck = tsc --noEmit if missing.
 - [ ] Run npm run lint, npm run typecheck, and npm test -- --runInBand. Expected: all exit 0.

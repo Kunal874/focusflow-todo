@@ -1,8 +1,8 @@
 # Windows Android setup
 
-This is the next build stage. These notes do not mean the Android toolchain is installed.
+This guide records the Android tool installation and the remaining starter-app work in Stage 1.
 
-## Findings on 21 October 2026
+## Initial assessment on 21 October 2026
 
 | Tool | Finding |
 | --- | --- |
@@ -16,7 +16,49 @@ This is the next build stage. These notes do not mean the Android toolchain is i
 | Android Studio | Not found in the checked default installation location |
 | Windows Package Manager | winget available |
 
-Java/Android tools may exist elsewhere; check any custom installation before installing another copy. Nothing was installed or changed in the machine environment during planning.
+Nothing was installed during the original planning pass. The user subsequently requested installation under C:\CODE.
+
+## Installation locations
+
+| Tool / data | Location |
+| --- | --- |
+| Microsoft OpenJDK 17 | C:\CODE\Java\jdk-17 |
+| Android Studio | C:\CODE\AndroidStudio |
+| Android SDK | C:\CODE\Android\Sdk |
+| Android SDK command-line tools | C:\CODE\Android\Sdk\cmdline-tools\latest |
+| Android user configuration | C:\CODE\Android\.android |
+| Android virtual devices | C:\CODE\Android\avd |
+
+Java and Android Studio use the vendors' official ZIP distributions. Their SHA-256 checksums were checked before extraction; the Android Studio launcher also has a valid Authenticode signature. A per-user Android Studio Start menu shortcut points to C:\CODE\AndroidStudio\bin\studio64.exe.
+
+C:\CODE originally allowed normal processes read-only access. An administrator-approved helper created only the new Java, AndroidStudio, and Android subfolders and granted the current user Modify access to those new folders. Existing tool folders and the parent folder's permissions were left as they were.
+
+User environment variables JAVA_HOME, ANDROID_HOME, ANDROID_USER_HOME, and ANDROID_AVD_HOME point to the locations above. The user PATH adds the Java bin, SDK platform-tools, command-line tools bin, and emulator directories while preserving existing entries. Open a new terminal after installation; restart an already-running editor/Codex if its terminals still inherit old variables.
+
+Android Studio runs on its bundled JetBrains runtime. Command-line app builds use the separately configured JDK 17.
+
+## Verified installation
+
+| Component | Installed version |
+| --- | --- |
+| Microsoft OpenJDK / javac | 17.0.20.1 |
+| Android Studio ZIP release | 2026.2.1.8 |
+| SDK command-line tools | 22.0 |
+| SDK platforms | Android API 36 and API 37.0 |
+| SDK build-tools | 36.0.0 and 37.0.0 |
+| SDK platform-tools / ADB distribution | 37.0.1 |
+| Android NDK | 27.1.12297006 (r27b) |
+| CMake | 3.22.1 |
+| Android Emulator | 37.2.12 |
+| System image | Android API 36, Google APIs, x86_64, revision 7 |
+
+The inspected React Native 0.87/0.88 template archives specify compile SDK 37, build-tools 37.0.0, target SDK 36, and NDK 27.1.12297006. The matching platform is published as the SDK package platforms;android-37.0. The final CLI/template pair still needs to be selected and tested when the app is generated.
+
+Created FocusFlow_API36 using the Pixel 7 profile, with 2 GB RAM and four emulator CPU cores. Its files are under C:\CODE\Android\avd. Windows Hypervisor Platform (WHPX) passed the emulator's acceleration check. A headless cold boot was verified with ADB: the device was online, sys.boot_completed returned 1, and Android reported version 16 / API level 36. The test emulator was then shut down.
+
+The device manager emitted a missing per-image devices.xml profile diagnostic; its built-in Pixel 7 profile was available and the resulting virtual device booted successfully. No vendor SDK files were modified to suppress the diagnostic.
+
+The starter app has not been generated, so React Native/Gradle compilation remains unverified. This completes the native-tool installation portion of Stage 1.
 
 ## 1. Prepare the native tools
 
@@ -28,7 +70,7 @@ Java/Android tools may exist elsewhere; check any custom installation before ins
 6. Set JAVA_HOME to the actual JDK directory. Set ANDROID_HOME to the actual SDK directory shown by Android Studio.
 7. Add the JDK bin, Android SDK platform-tools, and emulator directories to the user PATH if absent. Open a new terminal afterward.
 
-Typical SDK location: C:\Users\Kunal\AppData\Local\Android\Sdk. Use the actual installed location if different.
+This machine's configured SDK location is C:\CODE\Android\Sdk.
 
 ## 2. Verify the tools
 
@@ -38,14 +80,19 @@ Run these in a new PowerShell terminal:
 node --version
 npm --version
 java -version
+javac -version
 Get-Command java
 $env:JAVA_HOME
 $env:ANDROID_HOME
 adb version
 adb devices
+emulator -accel-check
+emulator -list-avds
 ~~~
 
-Success means Java reports the selected JDK, the SDK path exists, and adb devices lists an authorized device/emulator with state "device". A listed "unauthorized" phone is not ready.
+Success means Java reports the selected JDK, the SDK path exists, the acceleration check succeeds, and FocusFlow_API36 appears in the virtual-device list. adb devices lists an online device only while a phone is connected or an emulator is running. A listed "unauthorized" phone is not ready.
+
+Start the configured virtual device with emulator -avd FocusFlow_API36, or use Android Studio's Device Manager. The setup smoke test used a hidden window and software rendering; the normal launch opens the emulator window.
 
 ## 3. Generate the starter during Stage 1
 
@@ -75,8 +122,8 @@ MongoDB options for Stage 2 are an existing local MongoDB instance or an Atlas d
 
 ## Stage 1 exit checklist
 
-- [ ] Java and SDK locations verified.
-- [ ] One emulator or authorized phone available.
+- [x] Java and SDK locations verified.
+- [x] One emulator or authorized phone available.
 - [ ] Verified compatible React Native CLI/template pair recorded.
 - [ ] TypeScript React Native starter generated in mobile.
 - [ ] Starter installs and opens on Android.

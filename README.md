@@ -2,7 +2,7 @@
 
 An Android to-do app planned for React Native CLI and TypeScript, backed by a Node.js API and MongoDB.
 
-**Current status:** repository and build plan only. The mobile app, API, database, and APK have not been implemented.
+**Current status:** repository, build plan, and native Android tool installation are ready. The mobile app, API, database, and APK have not been implemented.
 
 ## Build it step by step
 
@@ -70,7 +70,9 @@ The mobile and server packages will each have their own package.json and committ
 
 ## First build step
 
-Prepare Java, Android Studio, the Android SDK, and a device using [the Windows setup guide](docs/windows-setup.md). Then generate and run the mobile starter. Node.js, npm, Git, and GitHub CLI are already available in the checked development environment.
+Java 17, Android Studio, the SDK, NDK, CMake, and an Android emulator are installed under C:\CODE. The FocusFlow_API36 virtual device successfully booted and was detected by ADB. See [the Windows setup guide](docs/windows-setup.md) for paths, versions, and verification results.
+
+Next, select a compatible CLI/template pair, generate the TypeScript mobile starter, and run it on Android. Restart Codex or your terminal first so new processes pick up the configured Java/Android environment. Node.js, npm, Git, and GitHub CLI are also available.
 
 There are no app install/run commands yet because product code has not been generated. Those commands will be added and verified as the stages are completed.
 
