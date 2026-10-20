@@ -4,6 +4,8 @@ dist/
 coverage/
 *.log
 .cache/
+.local/
+artifacts/
 
 # Local configuration and credentials; examples contain placeholders only
 .env

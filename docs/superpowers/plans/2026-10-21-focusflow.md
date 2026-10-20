@@ -33,7 +33,7 @@
 
 ## Working agreement
 
-Stage 0 is the repository/planning work. Tasks 1-8 below are the subsequent build. Complete one stage, show its result and explain it, then proceed when the user is ready for the next guided stage. No product code or dependency installation is part of Stage 0.
+Stage 0 is the repository/planning work. Tasks 1-8 below are the subsequent build. The user has now authorized the full implementation, so proceed continuously through all stages. The user selected local-first testing; hosted deployment and evaluator access await hosting/database accounts. Deliver a standalone local-development APK and deployment-ready source while preserving production HTTPS/signing requirements.
 
 For behavior changes, add the named tests first, observe a meaningful failure, implement, and rerun. Do not write tests for static documentation or style constants. Each task ends with a focused commit and push. Keep separate mobile/server package-lock.json files and avoid a monorepo build framework.
 
