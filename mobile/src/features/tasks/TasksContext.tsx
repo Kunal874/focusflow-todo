@@ -34,6 +34,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
   const sequence = useRef(0);
   const version = useRef(0);
   const pending = useRef(new Map<string, Promise<unknown>>());
+  const tails = useRef(new Map<string, Promise<unknown>>());
   const refresh = useCallback(async (): Promise<void> => {
     const id = ++sequence.current;
     const startedVersion = version.current;
@@ -73,15 +74,21 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
   const run = useCallback(
     <T,>(
       id: string,
+      fingerprint: string,
       work: () => Promise<T>,
       commit: (result: T) => TasksAction,
     ): Promise<T> => {
-      const existing = pending.current.get(id);
+      const existing = pending.current.get(fingerprint);
       if (existing) return existing as Promise<T>;
       const startedGeneration = generation.current;
-      dispatch({ type: 'begin', id });
+      const previous = tails.current.get(id);
+      if (!previous) dispatch({ type: 'begin', id });
       const operation = (async () => {
         try {
+          // Distinct writes to one task run in order; identical submissions share a request.
+          if (previous) await previous.catch(() => {});
+          if (!alive.current || startedGeneration !== generation.current)
+            throw new Error('Your session changed.');
           const result = await work();
           if (!alive.current || startedGeneration !== generation.current)
             throw new Error('Your session changed.');
@@ -101,10 +108,15 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
           throw error;
         }
       })();
-      pending.current.set(id, operation);
+      pending.current.set(fingerprint, operation);
+      tails.current.set(id, operation);
       const settle = () => {
-        pending.current.delete(id);
-        if (alive.current) dispatch({ type: 'done', id });
+        pending.current.delete(fingerprint);
+        if (tails.current.get(id) === operation) {
+          tails.current.delete(id);
+          if (alive.current && startedGeneration === generation.current)
+            dispatch({ type: 'done', id });
+        }
       };
       void operation.then(settle, settle);
       return operation;
@@ -115,6 +127,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
     (input: CreateTaskInput) =>
       run(
         'create',
+        'create:' + JSON.stringify(input),
         async () => {
           const result = await api.request<{ task: Task }>('/tasks', {
             method: 'POST',
@@ -130,6 +143,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
     (id: string, input: UpdateTaskInput) =>
       run(
         id,
+        'update:' + id + ':' + JSON.stringify(input),
         async () => {
           const result = await api.request<{ task: Task }>(
             '/tasks/' + encodeURIComponent(id),
@@ -145,6 +159,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
     (id: string) =>
       run(
         id,
+        'delete:' + id,
         () =>
           api.request<void>('/tasks/' + encodeURIComponent(id), {
             method: 'DELETE',

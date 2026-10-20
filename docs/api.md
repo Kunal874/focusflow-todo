@@ -9,7 +9,7 @@ npm ci
 npm run dev:local
 ~~~
 
-The local runner downloads/starts a real MongoDB binary, generates a server-only JWT secret if .env does not exist, and persists records in server/.local/mongodb. It binds MongoDB to loopback. No Docker or Atlas account is needed for this mode. Do not run a second local runner on the same database/port.
+The local runner downloads/starts a real MongoDB binary, generates a server-only JWT secret if .env does not exist, and persists records in server/.local/mongodb. It binds MongoDB to loopback. If the preferred port is occupied, it connects to its managed instance's actual selected port. No Docker or Atlas account is needed for this mode. Do not run a second local runner on the same database files.
 
 For an existing MongoDB deployment, copy server/.env.example to server/.env, set a real MONGODB_URI and random JWT_SECRET, then use npm run dev. For a production process use npm run build followed by npm start.
 

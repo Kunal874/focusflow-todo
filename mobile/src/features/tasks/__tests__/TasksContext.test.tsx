@@ -122,3 +122,56 @@ it('does not leak a delayed response into a newly mounted user workspace', async
   expect(screen.queryByText('Saved task')).toBeNull();
   expect(screen.getByText('User B task')).toBeTruthy();
 });
+
+it.each(['edit', 'delete'] as const)(
+  'queues a distinct %s after a pending completion',
+  async action => {
+    fetchMock.mockResolvedValueOnce(response(200, { tasks: [task] }));
+    await mount();
+    await screen.findByText('Saved task');
+    let finish!: (value: Response) => void;
+    fetchMock.mockImplementationOnce(
+      () =>
+        new Promise(resolve => {
+          finish = resolve;
+        }),
+    );
+    fetchMock.mockResolvedValueOnce(
+      action === 'edit'
+        ? response(200, {
+            task: { ...task, title: 'Edited task', status: 'completed' },
+          })
+        : response(204),
+    );
+    let completion!: Promise<Task>;
+    let next!: Promise<unknown>;
+    await act(async () => {
+      completion = latest.update(task.id, { status: 'completed' });
+      next =
+        action === 'edit'
+          ? latest.update(task.id, { title: 'Edited task' })
+          : latest.remove(task.id);
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    await act(async () => {
+      finish(response(200, { task: { ...task, status: 'completed' } }));
+      await completion;
+      await next;
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock.mock.calls[2][1].method).toBe(
+      action === 'edit' ? 'PATCH' : 'DELETE',
+    );
+    expect(latest.tasks).toEqual(
+      action === 'edit'
+        ? [
+            expect.objectContaining({
+              title: 'Edited task',
+              status: 'completed',
+            }),
+          ]
+        : [],
+    );
+    expect(latest.pendingIds).toEqual([]);
+  },
+);

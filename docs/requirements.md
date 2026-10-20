@@ -40,4 +40,12 @@ Tags/categories, reminders, social sign-in, dark mode, and offline synchronizati
 - Show invalid-form feedback, expired-session behavior, and recovery after a failed request.
 - Install the final APK independently of Metro and repeat the core flow.
 
-The original assignment does not supply a submission deadline, hosting credentials, or required APK signing/distribution method. We will settle delivery access and hosting during Stage 8 without assuming any paid service.
+The original assignment does not supply a submission deadline, hosting credentials, or required APK signing/distribution method. The user selected local-first development, so hosted deployment and evaluator access are deferred.
+
+## Current evidence
+
+All required features and the selected bonuses are implemented in the mobile/server packages. The API's 17 integration/regression tests cover registration/login, authentication, MongoDB storage, task CRUD/status, date validation, owner isolation, and occupied-port startup. The mobile's 27 tests cover authentication/session state, forms, API errors, task state and ordered mutations, date validation, sorting and filters. Lint/typecheck pass for both packages, and the backend production JavaScript build passes.
+
+The standalone Android local APK compiles for arm64-v8a and x86_64, has a verified APK v2 signature, and contains its bundled JavaScript. Local API smoke checks pass after restarting the backend.
+
+Native installation and the evaluation walkthrough above are still pending, including real keychain/picker behavior, app-restart session restoration, screenshots/demo, and visual/accessibility checks. A policy check blocked installation/launch and approval was requested. The [submission checklist](submission-checklist.md) tracks these separately from implemented code.

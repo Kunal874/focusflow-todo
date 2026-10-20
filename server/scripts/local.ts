@@ -2,7 +2,7 @@ import {randomBytes} from 'node:crypto';
 import {existsSync, mkdirSync, writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import mongoose from 'mongoose';
-import {MongoMemoryServer} from 'mongodb-memory-server';
+import {startLocalDatabase} from './localDatabase.js';
 import {createApp} from '../src/app.js';
 import {connectDatabase} from '../src/db.js';
 import {readConfig} from '../src/config.js';
@@ -21,10 +21,8 @@ const config = readConfig();
 if (config.mongoUri !== 'mongodb://127.0.0.1:27017/focusflow') {
   throw new Error('dev:local uses its own local database. Use npm run dev for a configured external database.');
 }
-const mongo = await MongoMemoryServer.create({
-  instance: {port: 27017, ip: '127.0.0.1', dbName: 'focusflow', dbPath, storageEngine: 'wiredTiger'},
-});
-await connectDatabase(config.mongoUri);
+const {mongo, uri} = await startLocalDatabase(dbPath);
+await connectDatabase(uri);
 const server = createApp(config).listen(config.port, '0.0.0.0', () => {
   console.log('FocusFlow local API ready on port ' + config.port + '. MongoDB data persists in server/.local/mongodb.');
 });

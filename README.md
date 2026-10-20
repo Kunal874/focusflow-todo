@@ -1,83 +1,107 @@
 # FocusFlow
 
-An Android to-do app planned for React Native CLI and TypeScript, backed by a Node.js API and MongoDB.
+A React Native CLI Android to-do app written in TypeScript, with an Express API and MongoDB. Register or log in, then create, edit, complete, reopen, and delete your own tasks. Each task has a title, description, scheduled date-time, deadline, and priority.
 
-**Current status:** repository, build plan, and native Android tool installation are ready. The mobile app, API, database, and APK have not been implemented.
+The implementation is on [feat/focusflow-app](https://github.com/Kunal874/focusflow-todo/tree/feat/focusflow-app). This is a **local-first build**: the API runs on your PC. Hosting and a production signing key have not been provisioned. Android UI installation/walkthrough remains pending; see the [verification checklist](docs/submission-checklist.md).
 
-## Build it step by step
+## Features
 
-We will complete one stage, run its checks, explain what changed, and commit it before moving on.
+- Email/password authentication with Argon2id hashes and one-hour JWTs.
+- Android-backed secure token storage, session restoration, logout, and offline retry.
+- Owner-scoped MongoDB records; one account cannot read or modify another's tasks.
+- Native date/time pickers, confirmed deletion, status and priority filters.
+- Four sorts: smart, deadline, scheduled time, and priority.
+- Paper, ink, and mint interface with progress summary, empty/error states, and accessible control labels.
+- Standalone local APK with bundled JavaScript; Metro is unnecessary for this build.
 
-| Stage | Deliverable | Done when |
-| --- | --- | --- |
-| 0 | Repository and written plan | Private GitHub repo, design, setup notes, and tracked work exist |
-| [1](https://github.com/Kunal874/focusflow-todo/issues/1) | Android development setup and app shell | The React Native TypeScript starter runs on an emulator or phone |
-| [2](https://github.com/Kunal874/focusflow-todo/issues/2) | API and MongoDB connection | A health endpoint reports database availability |
-| [3](https://github.com/Kunal874/focusflow-todo/issues/3) | Backend authentication | Register, login, and authenticated user lookup pass integration tests |
-| [4](https://github.com/Kunal874/focusflow-todo/issues/4) | Task API | Users can create, read, update, complete, reopen, and delete only their own tasks |
-| [5](https://github.com/Kunal874/focusflow-todo/issues/5) | Mobile authentication | Register/login screens, secure session restoration, and logout work |
-| [6](https://github.com/Kunal874/focusflow-todo/issues/6) | Mobile task workflow | Tasks can be managed in the app and survive an app restart |
-| [7](https://github.com/Kunal874/focusflow-todo/issues/7) | Smart sorting and UI polish | Deadline, schedule, and priority affect a tested ranking; filters work |
-| [8](https://github.com/Kunal874/focusflow-todo/issues/8) | Verification and submission package | Checks pass, APK is tested, demo and setup instructions are ready |
+Smart sorting puts overdue pending tasks first and completed tasks last. Other pending tasks combine priority (50%), deadline urgency over 72 hours (35%), and scheduled-time urgency over 24 hours (15%). Stable date/ID tie-breakers make ordering predictable. The [design](docs/superpowers/specs/2026-10-21-focusflow-design.md) describes the formula.
 
-See [GitHub issues](https://github.com/Kunal874/focusflow-todo/issues) for the stage checklist.
+## Run locally on Windows
 
-## Proposed stack
+Prerequisites: Node.js 24, Java 17, Android SDK and a running Android emulator/USB device. This machine has Java and Android tools under `C:\CODE`; see [Windows setup](docs/windows-setup.md). Dependencies and generated files stay outside Git.
 
-| Part | Choice | Reason |
-| --- | --- | --- |
-| Mobile | React Native Community CLI + TypeScript | Matches the assignment's native Android requirement |
-| API | Node.js + Express + TypeScript | A small, easy-to-follow backend |
-| Database | MongoDB + Mongoose | Persistent user and task records with schemas |
-| Authentication | Argon2id password hashes + expiring JWT access tokens | Demonstrates the backend authentication flow |
-| State | React Context + useReducer | Enough for authentication and a small task collection |
-| Navigation | React Navigation native stack | Separate signed-in and signed-out flows |
-| Token storage | react-native-keychain | Use platform-backed credential storage |
-| Checks | Backend integration tests; React Native component/unit tests | Cover authentication, ownership, task operations, and sorting |
+In a PowerShell terminal at the repository root:
 
-These are proposed implementation choices, not claims that dependencies are installed. Exact compatible package versions will be recorded when each package is scaffolded.
+```powershell
+cd server
+npm ci
+npm run dev:local
+```
 
-## Documents
+The runner downloads a real MongoDB binary on first use, creates a private `.env` secret, and keeps database files in `server/.local/mongodb`. MongoDB binds to loopback; the API listens on port 3000. Leave this terminal running. An occupied preferred MongoDB port selects another port and the API connects to that managed instance. Run only one local runner against these data files.
 
-- [Assignment requirements and acceptance checks](docs/requirements.md)
-- [Design, data model, and API contract](docs/superpowers/specs/2026-10-21-focusflow-design.md)
-- [Implementation plan](docs/superpowers/plans/2026-10-21-focusflow.md)
-- [Windows setup and environment findings](docs/windows-setup.md)
+In a second terminal:
 
-## Planned layout
+```powershell
+Invoke-RestMethod http://127.0.0.1:3000/api/health
+cd mobile
+npm ci
+npm run build:local -- -PreactNativeArchitectures=arm64-v8a,x86_64
+```
 
-~~~text
-focusflow-todo/
-  mobile/                  # React Native CLI app; created in Stage 1
-    android/
-    src/
-      app/
-      components/
-      features/auth/
-      features/tasks/
-      lib/
-  server/                  # Express API; created in Stage 2
-    src/
-      auth/
-      tasks/
-      middleware/
-    tests/
-  docs/
-  .github/workflows/       # Added with verification automation
-~~~
+Expected health response: `status: ok`, `database: connected`. The APK is `mobile/android/app/build/outputs/apk/local/app-local.apk`. The local delivery copy is `artifacts/FocusFlow-local.apk`, with a SHA-256 file alongside it. APKs are ignored by Git. [GitHub Actions](https://github.com/Kunal874/focusflow-todo/actions/workflows/ci.yml) builds and uploads a private `FocusFlow-local` artifact for successful runs.
 
-The mobile and server packages will each have their own package.json and committed package-lock.json. No monorepo framework is needed.
+Install the local APK on your emulator or phone when ready:
 
-## First build step
+```powershell
+adb install -r mobile/android/app/build/outputs/apk/local/app-local.apk
+adb shell am start -n com.focusflow.local/com.focusflow.MainActivity
+```
 
-Java 17, Android Studio, the SDK, NDK, CMake, and an Android emulator are installed under C:\CODE. The FocusFlow_API36 virtual device successfully booted and was detected by ADB. See [the Windows setup guide](docs/windows-setup.md) for paths, versions, and verification results.
+The default URL `http://10.0.2.2:3000/api` reaches this PC from the standard Android emulator. In the app's **Server settings**, choose the USB preset after running `adb reverse tcp:3000 tcp:3000`, or enter this PC's LAN URL for a phone on the same network. Changing servers signs out. For LAN access, Windows must allow the API through the firewall on the trusted network. The PC and API must stay on.
 
-Next, select a compatible CLI/template pair, generate the TypeScript mobile starter, and run it on Android. Restart Codex or your terminal first so new processes pick up the configured Java/Android environment. Node.js, npm, Git, and GitHub CLI are also available.
+For development with Metro, run `npm start` in `mobile`, then `npm run android` in another terminal there.
 
-There are no app install/run commands yet because product code has not been generated. Those commands will be added and verified as the stages are completed.
+## Check the project
 
-## Submission
+```powershell
+cd server
+npm run lint
+npm run typecheck
+npm test
+npm run build
+# With dev:local already running in a different terminal:
+npm run test:live
 
-Prepare a repository link, tested Android APK, screenshots, short demo, API/setup documentation, and an evaluation checklist. Confirm the evaluator can access this private repository before submitting.
+cd ../mobile
+npm run lint
+npm run typecheck
+npm test -- --runInBand
+```
 
-The assignment's submission form is [linked here](https://forms.gle/UZZKMsXApTA2H64J9). Submission will be a separate, deliberate step after the app is complete.
+The server suite uses disposable real MongoDB instances. The live smoke check creates synthetic accounts and verifies authentication, persistence, date validation, completion/reopening, deletion, and two-user isolation against localhost only. It deletes its task; synthetic accounts remain in the development database.
+
+Latest local checks: 17 backend tests and 27 mobile tests pass, along with both packages' lint/typecheck and the server build. Android standalone builds have compiled with arm64-v8a and x86_64. Compilation and mocked component tests do not replace the pending native walkthrough.
+
+## Structure
+
+```text
+mobile/src/
+  app/                  navigation and design tokens
+  components/           shared controls
+  features/auth/        forms, secure sessions, reducer/context
+  features/tasks/       list, form, API state, sorting and validation
+  lib/                  HTTP, URL configuration and keychain helpers
+server/
+  src/                  app bootstrap, authentication, tasks, middleware
+  scripts/              persistent local database and live smoke check
+  tests/                API integration and local-startup regression tests
+.github/workflows/      package checks and standalone Android build
+```
+
+React Context and reducers manage auth/task state. Task writes update the UI after server confirmation; distinct writes to one task queue in order. Session generations prevent delayed responses from populating another user's workspace. The API derives ownership from the verified token and validates the merged dates on edits.
+
+## Deployment and limits
+
+The local APK permits development HTTP and uses a debug signing key. Production builds require `FOCUSFLOW_API_URL` with HTTPS plus private signing variables `FOCUSFLOW_KEYSTORE`, `FOCUSFLOW_STORE_PASSWORD`, `FOCUSFLOW_KEY_ALIAS`, and `FOCUSFLOW_KEY_PASSWORD`; then run `npm run build:release` in `mobile`. Keep secrets and keystores outside Git. The backend supports Node.js hosting or the included Dockerfile; [API documentation](docs/api.md) covers configuration. Docker Compose configuration validates, but its container build has not been exercised here.
+
+Sessions expire after one hour. Password recovery, email verification, offline writes, push reminders, pagination, and immediate token revocation are outside this version. The React Native/Metro/CLI dependency tree has upstream npm audit advisories, including unpatched glob-pattern denial of service in build tooling; avoid untrusted build inputs and review upstream fixes before production. A forced audit downgrade would replace the selected native template with an incompatible version. The server dependency audit reported no vulnerabilities when installed.
+
+## Assignment delivery
+
+- [Requirements and evaluation walkthrough](docs/requirements.md)
+- [API contract and examples](docs/api.md)
+- [Build plan](docs/superpowers/plans/2026-10-21-focusflow.md)
+- [Verification and submission checklist](docs/submission-checklist.md)
+
+This repository is private. Grant evaluator access or choose visibility before sharing it. Screenshots, a demo, hosted HTTPS verification, and production distribution remain unchecked until performed. The [assignment form](https://forms.gle/UZZKMsXApTA2H64J9) has not been submitted.
