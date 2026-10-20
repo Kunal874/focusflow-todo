@@ -1,13 +1,8 @@
-/**
- * @format
- */
-
 import React from 'react';
-import ReactTestRenderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react-native';
 import App from '../App';
-
-test('renders correctly', async () => {
-  await ReactTestRenderer.act(() => {
-    ReactTestRenderer.create(<App />);
-  });
+it('opens the signed-out authentication flow without a stored credential', async () => {
+  await render(<App />);
+  expect(await screen.findByText('A clearer day\nstarts here.')).toBeTruthy();
+  expect(screen.getByLabelText('Email')).toBeTruthy();
 });
