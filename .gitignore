@@ -1,0 +1,36 @@
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+*.log
+.cache/
+
+# Local configuration and credentials; examples contain placeholders only
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.jks
+*-release.keystore
+*-release-key.keystore
+
+# Android / React Native
+.gradle/
+.kotlin/
+build/
+local.properties
+.cxx/
+captures/
+*.apk
+*.aab
+
+# Generated iOS files if included by the React Native CLI template
+Pods/
+DerivedData/
+*.xcuserstate
+
+# Editor / operating system
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
