@@ -1,5 +1,7 @@
 # FocusFlow Implementation Plan
 
+**Final status (21 October 2026):** completed for the user's local-only delivery scope. The user excluded hosting and subsequently authorized public source/APK delivery with a submission README and screenshots. The original steps below are retained as the historical build plan; the authoritative completed checklist is [delivery status](../../submission-checklist.md), with [native evidence](../../android-verification.md). HTTPS deployment and a hosted release APK are outside the final scope. The standalone local APK runs without Metro and requires the PC's API/MongoDB. External form submission remains a separate action.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for the guided, inline build. Use superpowers:subagent-driven-development only if that execution approach is subsequently chosen. Steps use checkbox syntax for tracking.
 
 **Goal:** build and demonstrate an authenticated Android to-do app that satisfies the supplied assignment.
@@ -13,7 +15,7 @@
 ## Global constraints
 
 - Android, React Native CLI, TypeScript, email/password authentication, and a Node.js/NestJS API with MongoDB are assignment requirements.
-- The repository is Kunal874/focusflow-todo and is private, as selected by the user.
+- The repository is Kunal874/focusflow-todo; originally private, it was authorized for public submission at closeout.
 - The user wants a guided, step-by-step build, beginning with GitHub and a plan.
 - Use Node.js 24.x, subject to the selected dependencies' engine constraints.
 - Send all timestamps as UTC ISO 8601 strings.
@@ -33,9 +35,25 @@
 
 ## Working agreement
 
-Stage 0 is the repository/planning work. Tasks 1-8 below are the subsequent build. Complete one stage, show its result and explain it, then proceed when the user is ready for the next guided stage. No product code or dependency installation is part of Stage 0.
+Stage 0 is the repository/planning work. Tasks 1-8 below are the subsequent build. The user has now authorized the full implementation, so proceed continuously through all stages. The user selected local-first testing; hosted deployment and evaluator access await hosting/database accounts. Deliver a standalone local-development APK and deployment-ready source while preserving production HTTPS/signing requirements.
 
 For behavior changes, add the named tests first, observe a meaningful failure, implement, and rerun. Do not write tests for static documentation or style constants. Each task ends with a focused commit and push. Keep separate mobile/server package-lock.json files and avoid a monorepo build framework.
+
+## Execution status
+
+The detailed steps below are the original plan. This table records actual delivery evidence; hosted production distribution remains deferred by the local-first choice.
+
+| Stage | Current result |
+| --- | --- |
+| 1 | CLI 20.2.0/RN 0.87.0 generated; native compilation, installation and launch pass |
+| 2–4 | API, MongoDB, registration/login and owner-scoped CRUD implemented; 17 integration/regression tests and live localhost smoke check pass |
+| 5–6 | Auth/task UI and tests pass; native keychain/picker and app/backend restart walkthrough pass |
+| 7 | Smart sorting, filters and visual tokens implemented/tested; native layout/label/target checks pass at normal and enlarged text |
+| 8 | Standalone local APK built for arm64-v8a + x86_64; signature/JS and native walkthrough verified; screenshots/demo/docs complete; final-source CI Android build/artifact verified |
+
+Review fixes: distinct task writes now queue instead of being discarded; managed local MongoDB uses its actual URI when the preferred port is occupied. Both regressions were observed failing before their fixes and now pass.
+
+The standalone local variant is an explicit exception to the original debug-only HTTP rule: it bundles JS with dev support disabled, uses a debug key, and permits local HTTP. Production release retains HTTPS and private-signing guards. Hosted deployment is deferred by the user's local-first choice. Commits group related mobile stages rather than splitting every original planned file/commit boundary. See [the delivery checklist](../../submission-checklist.md) for remaining checks.
 
 ## Planned file boundaries
 

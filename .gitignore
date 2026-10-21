@@ -4,6 +4,8 @@ dist/
 coverage/
 *.log
 .cache/
+.local/
+artifacts/
 
 # Local configuration and credentials; examples contain placeholders only
 .env
@@ -11,6 +13,14 @@ coverage/
 !.env.example
 !.env.*.example
 *.jks
+*.p12
+*.pfx
+*.pem
+*.key
+*.credential.xml
+*.keystore
+!**/debug.keystore
+cloud.env
 *-release.keystore
 *-release-key.keystore
 

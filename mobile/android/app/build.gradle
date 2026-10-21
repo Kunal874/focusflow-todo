@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'com.facebook.react'
+
+react {
+    debuggableVariants = ['debug']
+    autolinkLibrariesWithApp()
+}
+
+def apiUrl = System.getenv('FOCUSFLOW_API_URL') ?: ''
+def localUrl = apiUrl ?: 'http://10.0.2.2:3000/api'
+def quote = { value -> groovy.json.JsonOutput.toJson(value) }
+def keystorePath = System.getenv('FOCUSFLOW_KEYSTORE')
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+    namespace 'com.focusflow'
+    defaultConfig {
+        applicationId 'com.focusflow'
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName '1.0.0'
+        buildConfigField 'String', 'API_BASE_URL', quote(apiUrl)
+        buildConfigField 'boolean', 'LOCAL_NETWORK', 'false'
+        manifestPlaceholders = [usesCleartextTraffic: 'false']
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            if (keystorePath) {
+                storeFile file(keystorePath)
+                storePassword System.getenv('FOCUSFLOW_STORE_PASSWORD')
+                keyAlias System.getenv('FOCUSFLOW_KEY_ALIAS')
+                keyPassword System.getenv('FOCUSFLOW_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            buildConfigField 'String', 'API_BASE_URL', quote(localUrl)
+            buildConfigField 'boolean', 'LOCAL_NETWORK', 'true'
+            manifestPlaceholders = [usesCleartextTraffic: 'true']
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        // Bundles JavaScript and disables Metro/dev support, with explicit local-only networking.
+        local {
+            initWith release
+            applicationIdSuffix '.local'
+            versionNameSuffix '-local'
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            buildConfigField 'String', 'API_BASE_URL', quote(localUrl)
+            buildConfigField 'boolean', 'LOCAL_NETWORK', 'true'
+            manifestPlaceholders = [usesCleartextTraffic: 'true']
+        }
+    }
+}
+
+tasks.register('validateProductionConfig') {
+    doLast {
+        if (!apiUrl.startsWith('https://')) throw new GradleException('Set FOCUSFLOW_API_URL to a reachable HTTPS API URL for production.')
+        if (!keystorePath || !file(keystorePath).exists() ||
+            !System.getenv('FOCUSFLOW_STORE_PASSWORD') || !System.getenv('FOCUSFLOW_KEY_ALIAS') || !System.getenv('FOCUSFLOW_KEY_PASSWORD')) {
+            throw new GradleException('Configure a private release keystore and signing environment variables. Use assembleLocal for the local-development APK.')
+        }
+    }
+}
+tasks.configureEach { task ->
+    if (task.name == 'preReleaseBuild') task.dependsOn('validateProductionConfig')
+}
+
+dependencies {
+    implementation('com.facebook.react:react-android')
+    if (hermesEnabled.toBoolean()) implementation('com.facebook.react:hermes-android')
+    else implementation('io.github.react-native-community:jsc-android:2026004.+')
+}
