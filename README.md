@@ -2,7 +2,7 @@
 
 A React Native CLI Android to-do app written in TypeScript, with an Express API and MongoDB. Register or log in, then create, edit, complete, reopen, and delete your own tasks. Each task has a title, description, scheduled date-time, deadline, and priority.
 
-The implementation is on [feat/focusflow-app](https://github.com/Kunal874/focusflow-todo/tree/feat/focusflow-app). This is a **local-first build**: the API runs on your PC. Hosting and a production signing key have not been provisioned. Android UI installation/walkthrough remains pending; see the [verification checklist](docs/submission-checklist.md).
+The implementation is on [feat/focusflow-app](https://github.com/Kunal874/focusflow-todo/tree/feat/focusflow-app). This is a **local-first build**: the API runs on your PC. Hosting and a production signing key have not been provisioned. The native emulator walkthrough passes; see the [Android verification report](docs/android-verification.md) and [screenshots](docs/screenshots/README.md).
 
 ## Features
 
@@ -71,7 +71,7 @@ npm test -- --runInBand
 
 The server suite uses disposable real MongoDB instances. The live smoke check creates synthetic accounts and verifies authentication, persistence, date validation, completion/reopening, deletion, and two-user isolation against localhost only. It deletes its task; synthetic accounts remain in the development database.
 
-Latest local checks: 17 backend tests and 27 mobile tests pass, along with both packages' lint/typecheck and the server build. Android standalone builds have compiled with arm64-v8a and x86_64. Compilation and mocked component tests do not replace the pending native walkthrough.
+Latest local checks: 17 backend tests and 27 mobile tests pass, along with both packages' lint/typecheck and the server build. Android standalone builds have compiled with arm64-v8a and x86_64. The real Android walkthrough also passes, including registration/login, native pickers, CRUD/status, filters, account isolation, restart persistence, offline recovery, and activity recreation.
 
 ## Structure
 
@@ -99,9 +99,12 @@ Sessions expire after one hour. Password recovery, email verification, offline w
 
 ## Assignment delivery
 
+- [Local APK, demo and screenshot assets in the private draft release](https://github.com/Kunal874/focusflow-todo/releases)
+- [Android verification report](docs/android-verification.md)
+- [Screenshot gallery](docs/screenshots/README.md)
 - [Requirements and evaluation walkthrough](docs/requirements.md)
 - [API contract and examples](docs/api.md)
 - [Build plan](docs/superpowers/plans/2026-10-21-focusflow.md)
 - [Verification and submission checklist](docs/submission-checklist.md)
 
-This repository is private. Grant evaluator access or choose visibility before sharing it. Screenshots, a demo, hosted HTTPS verification, and production distribution remain unchecked until performed. The [assignment form](https://forms.gle/UZZKMsXApTA2H64J9) has not been submitted.
+This repository is private. Grant evaluator access or choose visibility before sharing it. Screenshots and the recorded demo are included in the local delivery package/private draft release. Hosted HTTPS verification and production distribution remain deferred. The [assignment form](https://forms.gle/UZZKMsXApTA2H64J9) has not been submitted.

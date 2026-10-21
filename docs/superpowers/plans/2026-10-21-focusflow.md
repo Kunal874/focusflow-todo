@@ -39,15 +39,15 @@ For behavior changes, add the named tests first, observe a meaningful failure, i
 
 ## Execution status
 
-The detailed steps below are the original plan. This table records actual delivery evidence; unchecked native and hosted checks remain pending rather than being inferred from compilation.
+The detailed steps below are the original plan. This table records actual delivery evidence; hosted production distribution remains deferred by the local-first choice.
 
 | Stage | Current result |
 | --- | --- |
-| 1 | CLI 20.2.0/RN 0.87.0 generated; native compilation passes; app installation/opening pending |
+| 1 | CLI 20.2.0/RN 0.87.0 generated; native compilation, installation and launch pass |
 | 2–4 | API, MongoDB, registration/login and owner-scoped CRUD implemented; 17 integration/regression tests and live localhost smoke check pass |
-| 5–6 | Auth and task UI/state implemented; mocked component/API tests pass; native keychain/picker and app-restart walkthrough pending |
-| 7 | Smart sorting, filters and visual tokens implemented/tested; native visual/accessibility walkthrough pending |
-| 8 | Standalone local APK built for arm64-v8a + x86_64; signature and embedded JS verified; docs/CI included; runtime/demo and CI artifact confirmation pending |
+| 5–6 | Auth/task UI and tests pass; native keychain/picker and app/backend restart walkthrough pass |
+| 7 | Smart sorting, filters and visual tokens implemented/tested; native layout/label/target checks pass at normal and enlarged text |
+| 8 | Standalone local APK built for arm64-v8a + x86_64; signature/JS and native walkthrough verified; screenshots/demo/docs complete; final-source CI Android build/artifact verified |
 
 Review fixes: distinct task writes now queue instead of being discarded; managed local MongoDB uses its actual URI when the preferred port is occupied. Both regressions were observed failing before their fixes and now pass.
 

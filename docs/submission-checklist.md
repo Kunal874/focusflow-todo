@@ -23,13 +23,13 @@ The user selected a local-first build. Hosted deployment and private-repository 
 - [x] Mobile: 27 Jest/component tests.
 - [x] Mobile: TypeScript and ESLint.
 - [x] Windows: standalone arm64-v8a + x86_64 APK compiles and its signature/JS bundle verify.
-- [ ] Install APK and complete native UI walkthrough.
-- [ ] Confirm session/task restoration after app restart on Android.
-- [ ] Capture screenshots and a short demo.
+- [x] Install APK and complete native UI walkthrough on Android 16 / API 36.
+- [x] Confirm secure session/task restoration and completed logout after app restart.
+- [x] Capture native screenshots and a 54.23-second final-APK demo.
 - [x] Final arm64-v8a + x86_64 APK built locally, bundled JavaScript/signature verified. Desktop copy: artifacts/FocusFlow-local.apk.
-- [ ] Confirm CI Android artifact.
+- [x] Confirm final application-source CI Android build/artifact (run 39553307858).
 
-The emulator installation command was blocked by an automatic policy check; explicit user approval was requested. Do not report the native UI walkthrough as completed until it runs.
+The user approved installation/testing. Native checks now pass, including offline retry, two-account isolation and activity recreation. See [the verification report](android-verification.md) for evidence and limitations.
 
 ## Before external submission
 

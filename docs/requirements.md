@@ -48,4 +48,4 @@ All required features and the selected bonuses are implemented in the mobile/ser
 
 The standalone Android local APK compiles for arm64-v8a and x86_64, has a verified APK v2 signature, and contains its bundled JavaScript. Local API smoke checks pass after restarting the backend.
 
-Native installation and the evaluation walkthrough above are still pending, including real keychain/picker behavior, app-restart session restoration, screenshots/demo, and visual/accessibility checks. A policy check blocked installation/launch and approval was requested. The [submission checklist](submission-checklist.md) tracks these separately from implemented code.
+Native installation and the local evaluation walkthrough now pass on the Android 16 emulator. The secure session/keychain, date/time pickers, app/backend restart recovery, task workflow, two-user isolation and rejected-session handling were exercised. Screenshots and a demo were captured. Activity recreation and small-screen defects found during testing were fixed and rechecked. See [the Android verification report](android-verification.md) for exact coverage and remaining limits.

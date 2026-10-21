@@ -1,6 +1,6 @@
 # Windows Android setup
 
-This guide records the Android tool installation and the remaining starter-app work in Stage 1.
+This guide records the Android tools under C:\CODE and the verified local app build/run setup.
 
 ## Initial assessment on 21 October 2026
 
@@ -52,13 +52,13 @@ Android Studio runs on its bundled JetBrains runtime. Command-line app builds us
 | Android Emulator | 37.2.12 |
 | System image | Android API 36, Google APIs, x86_64, revision 7 |
 
-The inspected React Native 0.87/0.88 template archives specify compile SDK 37, build-tools 37.0.0, target SDK 36, and NDK 27.1.12297006. The matching platform is published as the SDK package platforms;android-37.0. The final CLI/template pair still needs to be selected and tested when the app is generated.
+The inspected React Native 0.87/0.88 template archives specify compile SDK 37, build-tools 37.0.0, target SDK 36, and NDK 27.1.12297006. The matching platform is published as the SDK package platforms;android-37.0. The generated and tested pair is Community CLI 20.2.0 / React Native 0.87.0.
 
 Created FocusFlow_API36 using the Pixel 7 profile, with 2 GB RAM and four emulator CPU cores. Its files are under C:\CODE\Android\avd. Windows Hypervisor Platform (WHPX) passed the emulator's acceleration check. A headless cold boot was verified with ADB: the device was online, sys.boot_completed returned 1, and Android reported version 16 / API level 36. The test emulator was then shut down.
 
 The device manager emitted a missing per-image devices.xml profile diagnostic; its built-in Pixel 7 profile was available and the resulting virtual device booted successfully. No vendor SDK files were modified to suppress the diagnostic.
 
-The starter app has not been generated, so React Native/Gradle compilation remains unverified. This completes the native-tool installation portion of Stage 1.
+The original tool-only stage is complete. The React Native app has since been generated, compiled, installed and tested; see the Android verification report for current runtime evidence.
 
 ## 1. Prepare the native tools
 
@@ -138,6 +138,6 @@ The user selected local-first development; no Atlas/hosting account is required.
 - [x] React Native CLI/TypeScript native project generated.
 - [x] Native standalone APK compiles for arm64-v8a and x86_64.
 - [x] Backend/mobile automated checks pass.
-- [ ] Native app install, UI walkthrough, screenshots, and app-restart session restoration.
+- [x] Native install, UI walkthrough, screenshots/demo, and app-restart session restoration.
 
-APK installation/launch was blocked by an automatic policy check; explicit approval is pending. Emulator boot and native compilation do not establish UI runtime correctness.
+The user approved APK installation/testing, and the emulator walkthrough now passes. See [native verification evidence](android-verification.md) for tested flows and limits.
