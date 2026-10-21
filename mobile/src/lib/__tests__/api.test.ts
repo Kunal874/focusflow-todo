@@ -36,34 +36,6 @@ it('does not parse a 204 delete response', async () => {
   ).resolves.toBeUndefined();
   expect(empty.text).not.toHaveBeenCalled();
 });
-it('allows a sleeping demo host time to wake up without losing the request', async () => {
-  jest.useFakeTimers();
-  let finish!: (value: Response) => void;
-  let signal!: AbortSignal;
-  fetchMock.mockImplementationOnce((_url, options) => {
-    signal = options.signal;
-    return new Promise((resolve, reject) => {
-      finish = resolve;
-      signal.addEventListener('abort', () => reject(new Error('Aborted')));
-    });
-  });
-  const result = new ApiClient('https://example.com/api')
-    .request('/auth/me')
-    .then(
-      value => ({ value }),
-      error => ({ error }),
-    );
-  try {
-    await jest.advanceTimersByTimeAsync(65000);
-    expect(signal.aborted).toBe(false);
-    finish(response(200, { user: { id: 'one' } }));
-    await expect(result).resolves.toEqual({ value: { user: { id: 'one' } } });
-  } finally {
-    finish(response(200));
-    await result;
-    jest.useRealTimers();
-  }
-});
 it('preserves structured field errors and expires only confirmed unauthorized sessions', async () => {
   const expire = jest.fn();
   const client = new ApiClient('https://example.com/api', 'token', expire);

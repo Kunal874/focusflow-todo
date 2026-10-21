@@ -1,5 +1,7 @@
 # FocusFlow Implementation Plan
 
+**Final status (21 October 2026):** completed for the user's local-only delivery scope. The user excluded hosting during closeout. The original steps below are retained as the build plan; the authoritative completed checklist is [delivery status](../../submission-checklist.md), with [native evidence](../../android-verification.md). HTTPS deployment and a hosted release APK are outside the final scope. The standalone local APK runs without Metro and requires the PC's API/MongoDB. Source is pushed in pull request #9; repository access and form submission remain the user's decisions.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for the guided, inline build. Use superpowers:subagent-driven-development only if that execution approach is subsequently chosen. Steps use checkbox syntax for tracking.
 
 **Goal:** build and demonstrate an authenticated Android to-do app that satisfies the supplied assignment.

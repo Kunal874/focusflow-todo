@@ -56,4 +56,8 @@ The automation initially had assertion-text/time-zone mismatches and one harness
 - Screenshots ZIP: artifacts/FocusFlow-screenshots.zip.
 - These binary artifacts are kept outside Git and uploaded to the private draft release. Source and screenshots are committed in the implementation branch.
 
-Only synthetic example.test accounts were used. No tokens or passwords are included in screenshots, source, or the demo. This report covers the local APK above. The user subsequently authorized free hosting and a separate signed interviewer APK; see [hosting progress](hosting.md). The cold-start update has passed 28 mobile tests, lint, and TypeScript, but has not yet been rebuilt or tested against a hosted API.
+Only synthetic example.test accounts were used. No tokens or passwords are included in screenshots, source, or the demo. The emulator is left on the final task list; the local backend remains running. Hosting was explicitly excluded by the user's final local-only delivery choice.
+
+## Project closeout
+
+The hosting-only timeout and wait-message changes were removed when hosting was cancelled. The final `mobile/src`, `mobile/android`, and `server/src` trees match application commit `1c6a6e1`, which produced the APK and native evidence above. The final local package checks pass again: 27 mobile tests, 17 backend tests, lint and TypeScript for both packages, and the backend build. The delivery APK's checksum and v2 signature were reverified, and the running local health endpoint reports `status: ok`, `database: connected`.

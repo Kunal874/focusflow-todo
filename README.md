@@ -2,7 +2,7 @@
 
 A React Native CLI Android to-do app written in TypeScript, with an Express API and MongoDB. Register or log in, then create, edit, complete, reopen, and delete your own tasks. Each task has a title, description, scheduled date-time, deadline, and priority.
 
-The implementation is on [feat/focusflow-app](https://github.com/Kunal874/focusflow-todo/tree/feat/focusflow-app). The verified APK currently uses the API on your PC. A separate hosted build is being prepared with free Atlas/Render resources and a private release signing key; it is not available yet. See the [hosting handoff](docs/hosting.md), [Android verification report](docs/android-verification.md), and [screenshots](docs/screenshots/README.md).
+The implementation is complete on [feat/focusflow-app](https://github.com/Kunal874/focusflow-todo/tree/feat/focusflow-app), with [pull request #9](https://github.com/Kunal874/focusflow-todo/pull/9) ready for review. This is a **local app**: the API runs on your PC, and hosting was excluded by the user's final delivery choice. The native emulator walkthrough passes; see the [Android verification report](docs/android-verification.md) and [screenshots](docs/screenshots/README.md).
 
 ## Features
 
@@ -71,7 +71,7 @@ npm test -- --runInBand
 
 The server suite uses disposable real MongoDB instances. The live smoke check creates synthetic accounts and verifies authentication, persistence, date validation, completion/reopening, deletion, and two-user isolation against localhost only. It deletes its task; synthetic accounts remain in the development database.
 
-Latest package checks include 28 mobile tests, lint, and TypeScript after the hosted cold-start update. The previously verified local application passed 17 backend tests, both packages' lint/typecheck, the server build, and Android standalone builds with arm64-v8a and x86_64. Its native walkthrough covered registration/login, native pickers, CRUD/status, filters, account isolation, restart persistence, offline recovery, and activity recreation. The existing local APK predates the cold-start update.
+Latest local checks: 17 backend tests and 27 mobile tests pass, along with both packages' lint/typecheck and the server build. Android standalone builds have compiled with arm64-v8a and x86_64. The real Android walkthrough also passes, including registration/login, native pickers, CRUD/status, filters, account isolation, restart persistence, offline recovery, and activity recreation.
 
 ## Structure
 
@@ -107,4 +107,4 @@ Sessions expire after one hour. Password recovery, email verification, offline w
 - [Build plan](docs/superpowers/plans/2026-10-21-focusflow.md)
 - [Verification and submission checklist](docs/submission-checklist.md)
 
-This repository is private. Grant evaluator access or choose visibility before sharing it. Screenshots and the recorded demo are included in the local delivery package/private draft release. Hosted HTTPS verification and a signed interviewer APK are pending the Atlas credential setup described in the [hosting handoff](docs/hosting.md). The [assignment form](https://forms.gle/UZZKMsXApTA2H64J9) has not been submitted.
+This repository is private. Grant evaluator access or choose visibility before sharing it. Screenshots and the recorded demo are included in the local delivery package/private draft release. Hosting is excluded from this delivery; the APK needs the local API and MongoDB running on the PC, reachable through the emulator, USB forwarding, or the same LAN. The [assignment form](https://forms.gle/UZZKMsXApTA2H64J9) has not been submitted. [Cloud preparation status](docs/hosting.md) records the unused resources created before hosting was cancelled.

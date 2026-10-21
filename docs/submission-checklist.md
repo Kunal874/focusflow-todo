@@ -1,6 +1,6 @@
 # FocusFlow delivery checklist
 
-The local build is verified. The user subsequently authorized free Atlas/Render hosting and a signed APK that works away from the developer PC. Hosting is in progress; see [the handoff](hosting.md). Private-repository evaluator access is still a separate delivery decision.
+The project is complete for the user's final **local-only** scope. On 21 October 2026 the user explicitly excluded hosting and requested project closeout. The APK requires the PC's API/MongoDB; an interviewer can use it with the documented local setup. Repository access and the external submission form remain the user's delivery decisions.
 
 ## Implemented
 
@@ -20,25 +20,28 @@ The local build is verified. The user subsequently authorized free Atlas/Render 
 
 - [x] API: 17 integration/regression tests against disposable MongoDB.
 - [x] API: TypeScript, ESLint, and production JavaScript build.
-- [x] Mobile: 28 Jest/component tests, including the hosted cold-start regression.
+- [x] Mobile: 27 Jest/component tests.
 - [x] Mobile: TypeScript and ESLint.
 - [x] Windows: standalone arm64-v8a + x86_64 APK compiles and its signature/JS bundle verify.
 - [x] Install APK and complete native UI walkthrough on Android 16 / API 36.
 - [x] Confirm secure session/task restoration and completed logout after app restart.
 - [x] Capture native screenshots and a 54.23-second final-APK demo.
 - [x] Final arm64-v8a + x86_64 APK built locally, bundled JavaScript/signature verified. Desktop copy: artifacts/FocusFlow-local.apk.
-- [x] Confirm the local application CI Android build/artifact (run 39553307858). This run predates the hosted cold-start update.
+- [x] Confirm final application-source CI Android build/artifact (run 39553307858).
 
 The user approved installation/testing. Native checks now pass, including offline retry, two-account isolation and activity recreation. See [the verification report](android-verification.md) for evidence and limitations.
 
-## Before external submission
+## Delivery package
+
+- [x] Source and setup instructions pushed to the private implementation branch; pull request #9 is ready for review.
+- [x] Verified standalone local APK and SHA-256 checksum in `artifacts/` and the private draft release.
+- [x] Native screenshots, demo, API documentation, and known limits included.
+- [x] Hosting excluded at the user's request; no cloud credentials or hosted APK are required to conclude this scope.
+
+## Optional submission actions
 
 - [ ] Review/merge the implementation pull request, or share the implementation branch explicitly.
 - [ ] Grant evaluator access to the private repository and assets, or choose public visibility.
-- [ ] Configure a reachable HTTPS API/MongoDB deployment for use away from the developer PC.
-- [ ] Build a production APK with that HTTPS URL and a private release keystore.
-- [ ] Repeat the evaluation walkthrough against the deployment.
-- [ ] Provide source, APK, screenshots, demo, setup instructions, and known limits.
 - [ ] Submit the assignment form deliberately.
 
 ## Known limits
