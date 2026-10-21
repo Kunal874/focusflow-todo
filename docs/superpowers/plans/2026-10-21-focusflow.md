@@ -1,6 +1,6 @@
 # FocusFlow Implementation Plan
 
-**Final status (21 October 2026):** completed for the user's local-only delivery scope. The user excluded hosting during closeout. The original steps below are retained as the build plan; the authoritative completed checklist is [delivery status](../../submission-checklist.md), with [native evidence](../../android-verification.md). HTTPS deployment and a hosted release APK are outside the final scope. The standalone local APK runs without Metro and requires the PC's API/MongoDB. Source is pushed in pull request #9; repository access and form submission remain the user's decisions.
+**Final status (21 October 2026):** completed for the user's local-only delivery scope. The user excluded hosting and subsequently authorized public source/APK delivery with a submission README and screenshots. The original steps below are retained as the historical build plan; the authoritative completed checklist is [delivery status](../../submission-checklist.md), with [native evidence](../../android-verification.md). HTTPS deployment and a hosted release APK are outside the final scope. The standalone local APK runs without Metro and requires the PC's API/MongoDB. External form submission remains a separate action.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans for the guided, inline build. Use superpowers:subagent-driven-development only if that execution approach is subsequently chosen. Steps use checkbox syntax for tracking.
 
@@ -15,7 +15,7 @@
 ## Global constraints
 
 - Android, React Native CLI, TypeScript, email/password authentication, and a Node.js/NestJS API with MongoDB are assignment requirements.
-- The repository is Kunal874/focusflow-todo and is private, as selected by the user.
+- The repository is Kunal874/focusflow-todo; originally private, it was authorized for public submission at closeout.
 - The user wants a guided, step-by-step build, beginning with GitHub and a plan.
 - Use Node.js 24.x, subject to the selected dependencies' engine constraints.
 - Send all timestamps as UTC ISO 8601 strings.

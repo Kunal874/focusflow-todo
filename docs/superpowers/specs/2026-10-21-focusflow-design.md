@@ -7,7 +7,7 @@
 ## Confirmed requirements and choices
 
 - The user wants a guided, step-by-step build, beginning with GitHub and a plan.
-- The repository is Kunal874/focusflow-todo and is private, as selected by the user.
+- The repository is Kunal874/focusflow-todo; originally private, it was authorized for public submission at closeout.
 - Android, React Native CLI, TypeScript, email/password authentication, and a Node.js/NestJS API with MongoDB are assignment requirements.
 - Task title, description, date-time, deadline, priority, completion, deletion, and a status list are required.
 
@@ -140,7 +140,7 @@ Mobile: use the React Native template's Jest setup and React Native Testing Libr
 
 Stage 8 adds GitHub Actions for typecheck/lint/tests and an APK build. The user selected local-first build and testing: deliver a standalone development APK that runs without Metro against the PC's API, with development HTTP permitted only in that build. Production release configuration retains HTTPS and private signing requirements. Include deployment-ready source and instructions; actual hosted deployment/evaluator access follows when hosting/database accounts are available. Keep credentials in host configuration, signing keys local/secret storage, and APKs in release assets rather than Git.
 
-Provide a README with verified setup commands, API usage, screenshots, a demo, an APK link, and known limits. Confirm access for evaluators because the repository is private. Do not submit the form during planning.
+Provide a README with verified setup commands, API usage, screenshots, a demo, an APK link, and known limits. The final delivery choice authorizes public repository/release access for evaluators. External form submission is separate.
 
 ## Reference sources
 

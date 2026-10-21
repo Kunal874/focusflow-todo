@@ -13,6 +13,14 @@ artifacts/
 !.env.example
 !.env.*.example
 *.jks
+*.p12
+*.pfx
+*.pem
+*.key
+*.credential.xml
+*.keystore
+!**/debug.keystore
+cloud.env
 *-release.keystore
 *-release-key.keystore
 

@@ -54,7 +54,7 @@ The automation initially had assertion-text/time-zone mismatches and one harness
 - Local APK: artifacts/FocusFlow-local.apk; checksum: artifacts/FocusFlow-local.apk.sha256.
 - Demo: artifacts/FocusFlow-demo.mp4, a complete 54.23-second MP4 captured from the final APK.
 - Screenshots ZIP: artifacts/FocusFlow-screenshots.zip.
-- These binary artifacts are kept outside Git and uploaded to the private draft release. Source and screenshots are committed in the implementation branch.
+- These binary artifacts are kept outside Git and distributed as GitHub release assets. Source and screenshots are committed in the repository. Public submission publication was authorized after local verification.
 
 Only synthetic example.test accounts were used. No tokens or passwords are included in screenshots, source, or the demo. The emulator is left on the final task list; the local backend remains running. Hosting was explicitly excluded by the user's final local-only delivery choice.
 

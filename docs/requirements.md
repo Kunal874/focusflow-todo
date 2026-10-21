@@ -40,7 +40,7 @@ Tags/categories, reminders, social sign-in, dark mode, and offline synchronizati
 - Show invalid-form feedback, expired-session behavior, and recovery after a failed request.
 - Install the final APK independently of Metro and repeat the core flow.
 
-The original assignment does not supply a submission deadline, hosting credentials, or required APK signing/distribution method. The user's final delivery scope explicitly excludes hosting. The local implementation is complete; private-repository evaluator access and external form submission are separate delivery actions.
+The original assignment does not supply a submission deadline, hosting credentials, or required APK signing/distribution method. The user's final delivery scope excludes hosting and authorizes a public repository with APK, screenshots, demo, and setup instructions. External form submission is a separate action.
 
 ## Current evidence
 

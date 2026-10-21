@@ -1,6 +1,6 @@
 # FocusFlow delivery checklist
 
-The project is complete for the user's final **local-only** scope. On 21 October 2026 the user explicitly excluded hosting and requested project closeout. The APK requires the PC's API/MongoDB; an interviewer can use it with the documented local setup. Repository access and the external submission form remain the user's delivery decisions.
+The project is complete for the user's final **local-only** scope. On 21 October 2026 the user excluded hosting and then authorized a public repository, submission README with screenshots, and APK delivery. The APK requires the PC's API/MongoDB; an interviewer can use it with the documented local setup. External form submission remains a separate user action.
 
 ## Implemented
 
@@ -33,15 +33,15 @@ The user approved installation/testing. Native checks now pass, including offlin
 
 ## Delivery package
 
-- [x] Source and setup instructions pushed to the private implementation branch; pull request #9 is ready for review.
-- [x] Verified standalone local APK and SHA-256 checksum in `artifacts/` and the private draft release.
+- [x] Source and setup instructions prepared for the public default branch through pull request #9.
+- [x] Verified standalone local APK and SHA-256 checksum prepared as downloadable GitHub release assets.
 - [x] Native screenshots, demo, API documentation, and known limits included.
 - [x] Hosting excluded at the user's request; no cloud credentials or hosted APK are required to conclude this scope.
+- [x] Git history scanned with Gitleaks; local JWT secret absent from historical blobs; private signing material remains outside Git.
+- [x] Submission README includes screenshot previews, APK/demo links, and reviewer setup instructions.
 
 ## Optional submission actions
 
-- [ ] Review/merge the implementation pull request, or share the implementation branch explicitly.
-- [ ] Grant evaluator access to the private repository and assets, or choose public visibility.
 - [ ] Submit the assignment form deliberately.
 
 ## Known limits
