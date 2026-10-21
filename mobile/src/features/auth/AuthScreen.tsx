@@ -98,6 +98,12 @@ export function AuthScreen({
                 : 'Sign in to pick up where you left off.'}
             </Text>
           </View>
+          {busy && (
+            <Text accessibilityLiveRegion="polite" style={common.body}>
+              Connecting to your workspace. The first connection can take about
+              a minute.
+            </Text>
+          )}
           {!!(error || sessionError) && (
             <Text accessibilityRole="alert" style={styles.error}>
               {error || sessionError}

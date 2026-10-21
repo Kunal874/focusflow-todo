@@ -16,7 +16,8 @@ export class ApiClient {
   ) {}
   async request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    // Free demo hosts can take about a minute to resume after idling.
+    const timeout = setTimeout(() => controller.abort(), 90000);
     try {
       const response = await fetch(this.baseUrl + path, {
         ...options,

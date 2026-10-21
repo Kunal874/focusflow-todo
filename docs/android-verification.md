@@ -56,4 +56,4 @@ The automation initially had assertion-text/time-zone mismatches and one harness
 - Screenshots ZIP: artifacts/FocusFlow-screenshots.zip.
 - These binary artifacts are kept outside Git and uploaded to the private draft release. Source and screenshots are committed in the implementation branch.
 
-Only synthetic example.test accounts were used. No tokens or passwords are included in screenshots, source, or the demo. The emulator is left on the final task list; the local backend remains running. Hosting and production distribution are deferred by the user's local-first choice.
+Only synthetic example.test accounts were used. No tokens or passwords are included in screenshots, source, or the demo. This report covers the local APK above. The user subsequently authorized free hosting and a separate signed interviewer APK; see [hosting progress](hosting.md). The cold-start update has passed 28 mobile tests, lint, and TypeScript, but has not yet been rebuilt or tested against a hosted API.

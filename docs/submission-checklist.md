@@ -1,6 +1,6 @@
 # FocusFlow delivery checklist
 
-The user selected a local-first build. Hosted deployment and private-repository evaluator access are subsequent delivery decisions, not resources silently provisioned by this project.
+The local build is verified. The user subsequently authorized free Atlas/Render hosting and a signed APK that works away from the developer PC. Hosting is in progress; see [the handoff](hosting.md). Private-repository evaluator access is still a separate delivery decision.
 
 ## Implemented
 
@@ -20,14 +20,14 @@ The user selected a local-first build. Hosted deployment and private-repository 
 
 - [x] API: 17 integration/regression tests against disposable MongoDB.
 - [x] API: TypeScript, ESLint, and production JavaScript build.
-- [x] Mobile: 27 Jest/component tests.
+- [x] Mobile: 28 Jest/component tests, including the hosted cold-start regression.
 - [x] Mobile: TypeScript and ESLint.
 - [x] Windows: standalone arm64-v8a + x86_64 APK compiles and its signature/JS bundle verify.
 - [x] Install APK and complete native UI walkthrough on Android 16 / API 36.
 - [x] Confirm secure session/task restoration and completed logout after app restart.
 - [x] Capture native screenshots and a 54.23-second final-APK demo.
 - [x] Final arm64-v8a + x86_64 APK built locally, bundled JavaScript/signature verified. Desktop copy: artifacts/FocusFlow-local.apk.
-- [x] Confirm final application-source CI Android build/artifact (run 39553307858).
+- [x] Confirm the local application CI Android build/artifact (run 39553307858). This run predates the hosted cold-start update.
 
 The user approved installation/testing. Native checks now pass, including offline retry, two-account isolation and activity recreation. See [the verification report](android-verification.md) for evidence and limitations.
 

@@ -56,7 +56,10 @@ export function RootNavigator() {
           ) : (
             <>
               <ActivityIndicator color={colors.ink} />
-              <Text style={common.body}>Getting your workspace ready…</Text>
+              <Text style={common.body}>
+                Getting your workspace ready… The first connection can take
+                about a minute.
+              </Text>
             </>
           )}
         </View>
