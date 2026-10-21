@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
     marginTop: 5,
   },
-  open: { minWidth: 40, minHeight: 48, alignItems: 'flex-end' },
+  open: { minWidth: 48, minHeight: 48, alignItems: 'flex-end' },
   chevron: { fontSize: 28, color: '#78877C' },
   tags: {
     flexDirection: 'row',

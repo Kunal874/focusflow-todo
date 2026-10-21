@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -26,6 +27,7 @@ export function AuthScreen({
 }) {
   const { signIn, signUp, error: sessionError } = useAuth();
   const register = mode === 'register';
+  const { width, fontScale } = useWindowDimensions();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
@@ -74,15 +76,17 @@ export function AuthScreen({
         >
           <Brand />
           <View style={styles.hero}>
-            <View
-              style={styles.motif}
-              accessibilityElementsHidden
-              importantForAccessibility="no-hide-descendants"
-            >
-              <Text style={styles.heroCheck}>✓</Text>
-              <View style={styles.rule} />
-              <View style={styles.shortRule} />
-            </View>
+            {width >= 400 && fontScale <= 1.1 && (
+              <View
+                style={styles.motif}
+                accessibilityElementsHidden
+                importantForAccessibility="no-hide-descendants"
+              >
+                <Text style={styles.heroCheck}>✓</Text>
+                <View style={styles.rule} />
+                <View style={styles.shortRule} />
+              </View>
+            )}
             <Text style={styles.heading}>
               {register
                 ? 'Big plans.\nSmall steps.'
